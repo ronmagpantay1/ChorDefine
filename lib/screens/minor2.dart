@@ -310,7 +310,7 @@ class ChordDetailsMinor extends StatelessWidget {
                               color: Colors.black.withOpacity(0.2),
                               spreadRadius: 3,
                               blurRadius: 5,
-                              offset: Offset(2, 4),
+                              offset: const Offset(2, 4),
                             ),
                           ],
                         ),
@@ -546,7 +546,7 @@ class _FretDetectionScreenMinorState extends State<FretDetectionScreenMinor> {
   }
 
   void _showFailDialog() {
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(const Duration(seconds: 1), () {
       AwesomeDialog(
         context: context,
         dialogType: DialogType.warning,
@@ -804,7 +804,7 @@ class _CameraScreenMinorState extends State<CameraScreenMinor> {
   }
 
   void _showFailDialog() {
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       AwesomeDialog(
         context: context,
         dialogType: DialogType.warning,

@@ -834,7 +834,7 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
 }
 
   void _showFailDialog() {
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       AwesomeDialog(
         context: context,
         dialogType: DialogType.warning,
@@ -1122,7 +1122,7 @@ class AudioDetectionScreenMajor extends StatelessWidget {
         wrongchordcount++;
       }
       if (wrongchordcount == 2) {
-        Future.delayed(Duration(seconds: 1), () {
+        Future.delayed(const Duration(seconds: 1), () {
           AwesomeDialog(
             context: context,
             dialogType: DialogType.warning,
@@ -1135,7 +1135,7 @@ class AudioDetectionScreenMajor extends StatelessWidget {
             btnOkOnPress: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => TunerScreen()),
+                MaterialPageRoute(builder: (context) => const TunerScreen()),
               );
             },
           ).show();
