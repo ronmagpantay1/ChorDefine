@@ -1,10 +1,8 @@
 import 'package:camera/camera.dart';
 import 'package:chordefine/models/onboarding_view.dart';
 import 'package:chordefine/screens/base_screen.dart';
-import 'package:chordefine/models/onboarding_view.dart';
-import 'package:chordefine/screens/major.dart';
-import 'package:chordefine/screens/minor.dart';
-import 'package:chordefine/screens/singalong.dart';
+import 'package:chordefine/screens/major2.dart';
+import 'package:chordefine/screens/minor2.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';

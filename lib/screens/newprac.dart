@@ -1,6 +1,6 @@
 import 'package:chordefine/models/chords.dart';
-import 'package:chordefine/screens/major.dart';
-import 'package:chordefine/screens/minor.dart';
+import 'package:chordefine/screens/major2.dart';
+import 'package:chordefine/screens/minor2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

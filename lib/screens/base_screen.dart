@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:chordefine/screens/major.dart';
 import 'package:chordefine/screens/progress.dart';
 import 'package:flutter/material.dart';
 import 'settingspage.dart';

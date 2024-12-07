@@ -5,7 +5,6 @@ import 'package:chordefine/screens/tunerscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:camera/camera.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:typed_data';
 import 'package:get/get.dart';
@@ -22,109 +21,105 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Major Chords',
+      title: 'Minor Chords',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const PracticeScreenMajor(
-        title: 'Major Chords',
+      home: const PracticeScreenMinor(
+        title: 'Minor Chords',
       ),
     );
   }
 }
 
-class PracticeScreenMajor extends StatefulWidget {
-  const PracticeScreenMajor({Key? key, required String title})
+class PracticeScreenMinor extends StatefulWidget {
+  const PracticeScreenMinor({Key? key, required String title})
       : super(key: key);
 
   @override
-  _PracticeScreenMajorState createState() => _PracticeScreenMajorState();
+  _PracticeScreenMinorState createState() => _PracticeScreenMinorState();
 }
 
-class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
+class _PracticeScreenMinorState extends State<PracticeScreenMinor> {
   final List<String> exploreItems = [
-    'A Major',
-    'B Major',
-    'C Major',
-    'D Major',
-    'E Major',
-    'F Major',
-    'G Major',
+    'A Minor',
+    'B Minor',
+    'C Minor',
+    'D Minor',
+    'E Minor',
+    'F Minor',
+    'G Minor',
   ];
-  int getExpectedFret(String chordName) {
-    switch (chordName) {
-      case 'A':
-      case 'B':
-      case 'D':
-      case 'G':
-        return 2; // 2nd fret
-      case 'C':
-      case 'E':
-      case 'F':
-        return 1; // 1st fret
-      default:
-        return 1; // Default to 1st fret
-    }
-  }
 
-  final PracticeScreenMajorController controller =
-      Get.put(PracticeScreenMajorController());
+  final PracticeScreenMinorController controller =
+      Get.put(PracticeScreenMinorController());
 
   final Map<String, List<String>> songImages = {
-    'A Major': [
+    'A Minor': [
       'assets/picture/13.png',
       'assets/picture/12.png',
-      'assets/picture/17.png',
-      'assets/picture/1.png',
-      'assets/picture/a.jpg'
+      'assets/picture/18.png',
+      'assets/picture/8.png',
+      'assets/picture/am.png'
     ],
-    'B Major': [
+    'B Minor': [
       'assets/picture/13.png',
       'assets/picture/12.png',
-      'assets/picture/19.png',
-      'assets/picture/2.png',
-      'assets/picture/b.png'
+      'assets/picture/14.png',
+      'assets/picture/9.png',
+      'assets/picture/bm.png'
     ],
-    'C Major': [
+    'C Minor': [
       'assets/picture/13.png',
       'assets/picture/12.png',
-      'assets/picture/20.png',
-      'assets/picture/3.png',
-      'assets/picture/cmajor.png'
+      'assets/picture/cminor1.jpg',
+      'assets/picture/cminor.jpg',
+      'assets/picture/bm.png'
     ],
-    'D Major': [
+    'D Minor': [
       'assets/picture/13.png',
       'assets/picture/12.png',
-      'assets/picture/21.png',
-      'assets/picture/4.png',
-      'assets/picture/dmajor.png'
+      'assets/picture/15.png',
+      'assets/picture/10.png',
+      'assets/picture/dm.png'
     ],
-    'E Major': [
+    'E Minor': [
       'assets/picture/13.png',
       'assets/picture/12.png',
-      'assets/picture/22.png',
-      'assets/picture/5.png',
-      'assets/picture/e.jpg'
+      'assets/picture/16.png',
+      'assets/picture/11.png',
+      'assets/picture/em.png'
     ],
-    'F Major': [
+    'F Minor': [
       'assets/picture/13.png',
       'assets/picture/12.png',
-      'assets/picture/23.png',
-      'assets/picture/6.png',
-      'assets/picture/fmajor.png'
+      'assets/picture/fminor1.jpg',
+      'assets/picture/fminor.jpg',
+      'assets/picture/bm.png'
     ],
-    'G Major': [
+    'G Minor': [
       'assets/picture/13.png',
       'assets/picture/12.png',
-      'assets/picture/24.png',
-      'assets/picture/7.png',
-      'assets/picture/g.jpg'
+      'assets/picture/gminor1.jpg',
+      'assets/picture/gminor.jpg',
+      'assets/picture/bm.png'
     ],
+  };
+
+  // Map to store the expected chord for each minor chord
+  final Map<String, String> expectedChords = {
+    'A Minor': 'E',
+    'B Minor': 'F',
+    'C Minor': 'F',
+    'D Minor': 'C',
+    'E Minor': 'A',
+    'F Minor': 'F',
+    'G Minor': 'F',
   };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basic Major Chords',
+        title: const Text('Basic Minor Chords',
             style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
@@ -146,16 +141,20 @@ class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
                   itemCount: exploreItems.length,
                   itemBuilder: (context, index) {
                     final songTitle = exploreItems[index];
+                    final expectedChord = expectedChords[songTitle]!;
+
                     return GestureDetector(
                       onTap: () {
+                        final songTitle = exploreItems[index];
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ChordDetailsMajor(
+                            builder: (context) => ChordDetailsMinor(
                               title: songTitle,
-                              images: songImages[songTitle]!,
-                              expectedChord: songTitle
-                                  .split(" ")[0], // Extracts "A" from "A Major"
+                              images: songImages[
+                                  songTitle]!, // Pass the images for the selected chord
+                              expectedChord: expectedChords[
+                                  songTitle]!, // Pass the mapped expected chord
                             ),
                           ),
                         );
@@ -215,10 +214,9 @@ class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ChordDetailsMajor(
-                                      title: songTitle,
-                                      images: songImages[songTitle]!,
-                                      expectedChord: songTitle.split(" ")[0],
+                                    builder: (context) => CameraScreenMinor(
+                                      chordNamee: songTitle,
+                                      expectedChord: expectedChord,
                                     ),
                                   ),
                                 );
@@ -239,9 +237,8 @@ class _PracticeScreenMajorState extends State<PracticeScreenMajor> {
   }
 }
 
-class PracticeScreenMajorController extends GetxController {
-  final completedChords = <String>{}.obs;
-  // Using Set to prevent duplicates
+class PracticeScreenMinorController extends GetxController {
+  final completedChords = <String>{}.obs; // Using Set to prevent duplicates
 
   @override
   void onInit() {
@@ -251,12 +248,12 @@ class PracticeScreenMajorController extends GetxController {
 
   Future<void> saveNotifications() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('majorCompletedChords', completedChords.toList());
+    await prefs.setStringList('minorCompletedChords', completedChords.toList());
   }
 
   Future<void> loadNotifications() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedChords = prefs.getStringList('majorCompletedChords');
+    final savedChords = prefs.getStringList('minorCompletedChords');
     if (savedChords != null) {
       completedChords.addAll(savedChords);
     }
@@ -274,18 +271,17 @@ class PracticeScreenMajorController extends GetxController {
     saveNotifications();
   }
 
-  // Function to check if all major chords are completed
+  // Function to check if all Minor chords are completed
   bool areAllChordsCompleted() {
-    return completedChords.length == 7; // 7 major chords in total
+    return completedChords.length == 7; // 7 Minor chords in total
   }
 }
-
-class ChordDetailsMajor extends StatelessWidget {
+class ChordDetailsMinor extends StatelessWidget {
   final String title;
   final List<String> images;
   final String expectedChord;
 
-  const ChordDetailsMajor({
+  const ChordDetailsMinor({
     Key? key,
     required this.title,
     required this.images,
@@ -314,7 +310,7 @@ class ChordDetailsMajor extends StatelessWidget {
                               color: Colors.black.withOpacity(0.2),
                               spreadRadius: 3,
                               blurRadius: 5,
-                              offset: const Offset(2, 4),
+                              offset: Offset(2, 4),
                             ),
                           ],
                         ),
@@ -345,8 +341,7 @@ class ChordDetailsMajor extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                     minimumSize: const Size(150, 50),
                     backgroundColor: const Color.fromARGB(245, 245, 110, 15),
                   ),
@@ -360,11 +355,18 @@ class ChordDetailsMajor extends StatelessWidget {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () => _showConfirmationDialog(
-                      context, expectedChord), // Pass expectedChord
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FretDetectionScreenMinor(
+                        expectedChord: expectedChord,
+                        expectedFret: getExpectedFret(expectedChord),
+                        chordNamee: title,
+                      ),
+                    ),
+                  ),
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
                     minimumSize: const Size(150, 50),
                     backgroundColor: const Color.fromARGB(245, 245, 110, 15),
                   ),
@@ -385,98 +387,45 @@ class ChordDetailsMajor extends StatelessWidget {
     );
   }
 
-  // Add getExpectedFret here, or make it a global function
   int getExpectedFret(String chordName) {
     switch (chordName) {
-      case 'A':
-      case 'B':
-      case 'D':
-      case 'G':
-        return 2; // 2nd fret
       case 'C':
+      case 'B':
       case 'E':
       case 'F':
+        return 2; // 2nd fret
+      case 'A':
+      case 'D':
         return 1; // 1st fret
+      case 'G':
+        return 3; // 3rd fret
       default:
         return 1; // Default to 1st fret
     }
   }
-
-  void _showConfirmationDialog(BuildContext context, String expectedChord) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Confirmation"),
-          content:
-              const Text("Are you sure you want to proceed to the camera?"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-              },
-              child: const Text("No"),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close the dialog
-
-                // Navigate to FretDetectionScreenMajor
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FretDetectionScreenMajor(
-                      expectedChord: expectedChord,
-                      expectedFret: getExpectedFret(expectedChord),
-                    ),
-                  ),
-                );
-              },
-              child: const Text("Yes"),
-            ),
-          ],
-        );
-      },
-    );
-  }
 }
 
-class FretDetectionScreenMajor extends StatefulWidget {
+class FretDetectionScreenMinor extends StatefulWidget {
   final String expectedChord;
-  final int expectedFret; // Add expected fret
+  final int expectedFret;
+  final String chordNamee;
 
-  const FretDetectionScreenMajor(
-      {Key? key, required this.expectedChord, required this.expectedFret})
+  const FretDetectionScreenMinor(
+      {Key? key, required this.expectedChord, required this.expectedFret, required this.chordNamee})
       : super(key: key);
 
   @override
-  _FretDetectionScreenMajorState createState() =>
-      _FretDetectionScreenMajorState();
+  _FretDetectionScreenMinorState createState() =>
+      _FretDetectionScreenMinorState();
 }
 
-class _FretDetectionScreenMajorState extends State<FretDetectionScreenMajor> {
+class _FretDetectionScreenMinorState extends State<FretDetectionScreenMinor> {
   late CameraController _controller;
   late FlutterVision _vision;
   bool _isCameraReady = false;
   bool _isDetecting = false;
   bool _showDetectionButton = true;
   String _detectionStatus = 'Position your finger on the fretboard';
-  XFile? _capturedImage;
-  int getExpectedFret(String chordName) {
-    switch (chordName) {
-      case 'A':
-      case 'B':
-      case 'D':
-      case 'G':
-        return 2; // 2nd fret
-      case 'C':
-      case 'E':
-      case 'F':
-        return 1; // 1st fret
-      default:
-        return 1; // Default to 1st fret
-    }
-  }
 
   @override
   void initState() {
@@ -486,8 +435,8 @@ class _FretDetectionScreenMajorState extends State<FretDetectionScreenMajor> {
   }
 
   Future<void> _initializeCamera() async {
-    final camera = cameras
-        .firstWhere((cam) => cam.lensDirection == CameraLensDirection.front);
+    final camera = cameras.firstWhere(
+        (cam) => cam.lensDirection == CameraLensDirection.front);
     _controller = CameraController(camera, ResolutionPreset.medium);
 
     await _controller.initialize();
@@ -498,8 +447,8 @@ class _FretDetectionScreenMajorState extends State<FretDetectionScreenMajor> {
   Future<void> _initializeModel() async {
     _vision = FlutterVision();
     await _vision.loadYoloModel(
-      modelPath: 'assets/fretmodel.tflite', // Your fret model
-      labels: 'assets/fretlabels.txt', // Your fret labels
+      modelPath: 'assets/fretmodel.tflite', // Use your fret model
+      labels: 'assets/fretlabels.txt', // Use your fret labels
       modelVersion: "yolov8",
     );
   }
@@ -511,91 +460,53 @@ class _FretDetectionScreenMajorState extends State<FretDetectionScreenMajor> {
       _detectionStatus = "Detecting fret position...";
     });
 
-    _capturedImage = await _controller.takePicture();
+    XFile? _capturedImage = await _controller.takePicture();
 
     if (_capturedImage != null) {
-      _processImage(await _capturedImage!.readAsBytes());
-    }
-    void _showConfirmationDialog(BuildContext context) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Confirmation"),
-            content:
-                const Text("Are you sure you want to proceed to the camera?"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close the dialog
-                },
-                child: const Text("No"),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); // Close the dialog
-
-                  // Navigate to FretDetectionScreenMajor
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FretDetectionScreenMajor(
-                        expectedChord:
-                            widget.expectedChord, // Use chordName here
-                        expectedFret: getExpectedFret(widget.expectedChord),
-                      ),
-                    ),
-                  );
-                },
-                child: const Text("Yes"),
-              ),
-            ],
-          );
-        },
-      );
+      _processImage(await _capturedImage.readAsBytes());
     }
   }
 
   Future<void> _processImage(Uint8List imgBytes) async {
-  _isDetecting = true;
-  try {
-    final resizedBytes = await _preprocessImage(imgBytes);
-    final results = await _vision.yoloOnImage(
-      bytesList: resizedBytes,
-      imageHeight: 640,
-      imageWidth: 640,
-      iouThreshold: 0.5,
-      confThreshold: 0.5,
-      classThreshold: 0.6,
-    );
+    _isDetecting = true;
+    try {
+      final resizedBytes = await _preprocessImage(imgBytes);
+      final results = await _vision.yoloOnImage(
+        bytesList: resizedBytes,
+        imageHeight: 640,
+        imageWidth: 640,
+        iouThreshold: 0.5,
+        confThreshold: 0.5,
+        classThreshold: 0.6,
+      );
 
-    if (results.isNotEmpty) {
-      // Get the detected zones (excluding "Hand")
-      final detectedZones = results
-          .map((result) => result['tag'])
-          .where((zone) => zone != 'Hand')
-          .toList();
+      if (results.isNotEmpty) {
+        // Get the detected zones (excluding "Hand")
+        final detectedZones = results
+            .map((result) => result['tag'])
+            .where((zone) => zone != 'Hand')
+            .toList();
 
-      // Check if the expected fret zone is NOT present in the detected zones
-      final expectedFretZone = 'Zone${widget.expectedFret}';
-      if (!detectedZones.contains(expectedFretZone)) {
-        _showSuccessDialog();
+        // Check if the expected fret zone is NOT present in the detected zones
+        final expectedFretZone = 'Zone${widget.expectedFret}';
+        if (!detectedZones.contains(expectedFretZone)) {
+          _showSuccessDialog();
+        } else {
+          setState(() =>
+              _detectionStatus = 'Incorrect fret position.');
+          _showFailDialog();
+        }
       } else {
-        setState(() => _detectionStatus =
-            'Incorrect fret position.');
+        setState(() =>
+            _detectionStatus = 'Incorrect fret position.');
         _showFailDialog();
       }
-    } else {
-      setState(() => _detectionStatus =
-          'Incorrect fret position.');
-      _showFailDialog();
+    } catch (e) {
+      print("Detection error: $e");
+    } finally {
+      _isDetecting = false;
     }
-  } catch (e) {
-    print("Detection error: $e");
-  } finally {
-    _isDetecting = false;
   }
-}
 
   Future<Uint8List> _preprocessImage(Uint8List imgBytes) async {
     img.Image? originalImage = img.decodeImage(imgBytes);
@@ -624,7 +535,8 @@ class _FretDetectionScreenMajorState extends State<FretDetectionScreenMajor> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => CameraScreenMajor(
+            builder: (context) => CameraScreenMinor(
+              chordNamee: widget.chordNamee,
               expectedChord: widget.expectedChord,
             ),
           ),
@@ -666,10 +578,9 @@ class _FretDetectionScreenMajorState extends State<FretDetectionScreenMajor> {
               Padding(
                 padding: const EdgeInsets.all(40),
                 child: Text(
-                  'Detecting ${widget.expectedChord} Major Chord '
+                  'Detecting ${widget.chordNamee} Chord '
                   'Fret Position',
-                  style: const TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
                 ),
               ),
               Padding(
@@ -687,37 +598,37 @@ class _FretDetectionScreenMajorState extends State<FretDetectionScreenMajor> {
               ),
               Text(
                 _detectionStatus,
-                style:
-                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 20),
               ),
               if (_showDetectionButton)
-              ElevatedButton(
-                onPressed: () {
-                  _captureAndDetect(); // Call the capture and detect function
-                  setState(() {
-                    _showDetectionButton =
-                        false; // Set the button visibility to false
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(
-                      245, 245, 110, 15), // Set your desired button color here
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 12), // Optional padding
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(12), // Optional rounded corners
+                ElevatedButton(
+                  onPressed: () {
+                    _captureAndDetect();
+                    setState(() {
+                      _showDetectionButton =
+                          false; // Set the button visibility to false
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(
+                        245, 245, 110, 15), // Set your desired button color here
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12), // Optional padding
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(12), // Optional rounded corners
+                    ),
+                  ),
+                  child: const Text(
+                    "Start Detection",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                child: const Text(
-                  "Start Detection",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
             ],
           ),
           Positioned(
@@ -730,7 +641,7 @@ class _FretDetectionScreenMajorState extends State<FretDetectionScreenMajor> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          const PracticeScreenMajor(title: 'Major Chords')),
+                          const PracticeScreenMinor(title: 'Minor Chords')),
                 );
               },
               backgroundColor: const Color.fromARGB(245, 245, 110, 15),
@@ -749,30 +660,29 @@ class _FretDetectionScreenMajorState extends State<FretDetectionScreenMajor> {
   }
 }
 
-class CameraScreenMajor extends StatefulWidget {
-  final String expectedChord;
+class CameraScreenMinor extends StatefulWidget {
+  final String chordNamee; // e.g., "A Minor"
+  final String expectedChord; // e.g., "E"
 
-  const CameraScreenMajor({Key? key, required this.expectedChord})
-      : super(key: key);
+  const CameraScreenMinor({
+    Key? key,
+    required this.chordNamee,
+    required this.expectedChord,
+  }) : super(key: key);
 
   @override
-  _CameraScreenMajorState createState() => _CameraScreenMajorState();
+  _CameraScreenMinorState createState() => _CameraScreenMinorState();
 }
 
-class _CameraScreenMajorState extends State<CameraScreenMajor> {
-  bool _showDetectionButton = true;
+class _CameraScreenMinorState extends State<CameraScreenMinor> {
   late CameraController _controller;
   late FlutterVision _vision;
   bool _isCameraReady = false;
   bool _isDetecting = false;
+  bool _showProceedButton = false;
   String _detectionStatus = '...';
   XFile? _capturedImage;
-  bool _showDetectionArea = true; // Controls visibility of camera detection UI
-
-  // Audio Detection variables
-  final NoteChordControllerMajor _audioController =
-      Get.put(NoteChordControllerMajor(""));
-  bool _isAudioDetecting = false;
+  bool _showDetectionButton = true;
 
   final double _iouThreshold = 0.5;
   final double _confThreshold = 0.5;
@@ -783,8 +693,6 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
     super.initState();
     _initializeCamera();
     _initializeModel();
-    _audioController.expectedChord =
-        widget.expectedChord; // Set the expected chord for audio detection
   }
 
   Future<void> _initializeCamera() async {
@@ -811,6 +719,7 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
 
     setState(() {
       _detectionStatus = "Capturing Chord...";
+      _showDetectionButton = false; // Hide button on tap
     });
 
     _capturedImage = await _controller.takePicture();
@@ -866,10 +775,7 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
 
   void _showSuccessDialog() {
     setState(() {
-      _detectionStatus = '${widget.expectedChord} Major chord detected';
-      _showDetectionArea = false; // Hide camera detection UI
-      _isAudioDetecting = true; // Start audio detection
-      _audioController.startCapture(); // Start audio capture
+      _detectionStatus = '${widget.chordNamee} chord detected';
     });
 
     AwesomeDialog(
@@ -879,12 +785,26 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
       showCloseIcon: true,
       title: "Congratulations!",
       desc: "You have performed the chord correctly!",
-      btnOkOnPress: () {},
+      btnOkOnPress: () {
+                _closeResources();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AudioDetectionScreenMinor(
+                      chordNamee: widget.chordNamee, // Pass chord name
+                      expectedChord:
+                          widget.expectedChord,
+                          controller: _controller,
+            isCameraReady: _isCameraReady, // Pass expected chord
+                    ),
+                  ),
+                );
+              },
     ).show();
   }
 
   void _showFailDialog() {
-    Future.delayed(const Duration(seconds: 1), () {
+    Future.delayed(Duration(seconds: 2), () {
       AwesomeDialog(
         context: context,
         dialogType: DialogType.warning,
@@ -904,7 +824,6 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
     await _controller.stopImageStream();
     await _controller.dispose();
     await _vision.closeYoloModel();
-    _audioController.onClose(); // Close audio resources
   }
 
   @override
@@ -912,122 +831,58 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
     return Scaffold(
       body: Stack(
         children: [
-          // Camera Preview
-          _isCameraReady
-              ? Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
-                  width: MediaQuery.of(context).size.width,
-                  child: AspectRatio(
-                    aspectRatio: _controller.value.aspectRatio,
-                    child: CameraPreview(_controller),
-                  ),
-                )
-              : const Center(child: CircularProgressIndicator()),
-
-          // Detection Area (Conditional rendering)
-          if (_showDetectionArea)
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(40),
-                  child: Text(
-                    'Detecting ${widget.expectedChord} Major Chord',
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  _detectionStatus,
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(40),
+                child: Text(
+                  'Detecting ${widget.chordNamee}',
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 20),
+                      fontSize: 24, fontWeight: FontWeight.bold),
                 ),
-                if (_showDetectionButton) // Conditional rendering of the button
-                  ElevatedButton(
-                    onPressed: () {
-                      _captureAndDetect();
-                      setState(() => _showDetectionButton = false);
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(245, 245, 110, 15),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  width: MediaQuery.of(context).size.width,
+                  child: _isCameraReady
+                      ? AspectRatio(
+                          aspectRatio: _controller.value.aspectRatio,
+                          child: CameraPreview(_controller),
+                        )
+                      : const Center(child: CircularProgressIndicator()),
+                ),
+              ),
+              Text(
+                _detectionStatus,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              if (_showDetectionButton)
+                ElevatedButton(
+                  onPressed: _captureAndDetect,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(245, 245, 110,
+                        15), // Set your desired button color here
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12), // Optional padding
+                    shape: RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.circular(12), // Optional rounded corners
                     ),
-                    child: const Text(
-                      "Start Detection",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                      ),
+                  ),
+                  child: const Text(
+                    "Start Detection",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                const SizedBox(height: 40),
-              ],
-            ),
-
-          // Audio Detection UI (Conditional rendering)
-          if (_isAudioDetecting)
-            Column(
-              children: [
-                // Retain the detecting text from the camera screen
-                Padding(
-                  padding: const EdgeInsets.all(40),
-                  child: Text(
-                    'Detecting ${widget.expectedChord} Major Chord',
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
                 ),
-
-                // Spacer to push the icon and text below the camera preview
-                const Spacer(),
-
-                // Icon and Text in the middle below the camera
-                Expanded(
-                  // Use Expanded to take available space
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment
-                        .center, // Center the elements vertically
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 40),
-                        child: Image.asset(
-                          'assets/images/mike.png',
-                          height: 120,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Obx(() => Text(
-                            "Recognized Chord: ${_audioController.recognizedChord.value}",
-                            style: const TextStyle(fontSize: 15),
-                            textAlign: TextAlign.center,
-                          )),
-                      const SizedBox(height: 20),
-                      Obx(() => Text(
-                            _audioController.output.value,
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: _audioController.output.value ==
-                                      "Correct! You played ${widget.expectedChord}"
-                                  ? Colors.green
-                                  : Colors.red,
-                            ),
-                          )),
-                    ],
-                  ),
-                ),
-
-                // Add some bottom padding to avoid overlap with buttons
-                const SizedBox(height: 100),
-              ],
-            ),
-
-          // Cancel Button
+            ],
+          ),
           Positioned(
             bottom: 20,
             left: 20,
@@ -1038,40 +893,13 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          const PracticeScreenMajor(title: 'Major Chords')),
+                          const PracticeScreenMinor(title: 'Minor Chords')),
                 );
               },
               backgroundColor: const Color.fromARGB(245, 245, 110, 15),
               child: const Icon(Icons.cancel),
             ),
           ),
-
-          // Done Button (Audio Detection)
-          if (_isAudioDetecting)
-            Positioned(
-              bottom: 20,
-              right: 20,
-              child: Obx(() {
-                return _audioController.showDoneButton.value
-                    ? FloatingActionButton(
-                        onPressed: () {
-                          _audioController.markChordAsCompleted();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const MyProgress()),
-                          );
-                        },
-                        backgroundColor:
-                            const Color.fromARGB(245, 245, 110, 15),
-                        child: const Text(
-                          'Done',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )
-                    : const SizedBox.shrink();
-              }),
-            ),
         ],
       ),
     );
@@ -1084,7 +912,7 @@ class _CameraScreenMajorState extends State<CameraScreenMajor> {
   }
 }
 
-class NoteChordControllerMajor extends GetxController {
+class NoteChordControllerMinor extends GetxController {
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
 
@@ -1100,9 +928,10 @@ class NoteChordControllerMajor extends GetxController {
   static const int frequencyBufferSize = 12;
 
   Timer? chordDetectionTimer;
-  String expectedChord = '';
+  final String expectedChord;
+  final String chordNamee;  // Added for display purposes
 
-  NoteChordControllerMajor(this.expectedChord);
+  NoteChordControllerMinor({required this.expectedChord, required this.chordNamee});
 
   @override
   void onInit() {
@@ -1166,45 +995,45 @@ class NoteChordControllerMajor extends GetxController {
   }
 
   void recognizeChord() {
-    List<String> currentNotes = recentFrequencies
-        .map((freq) => findClosestNote(freq))
-        .where((note) => note.isNotEmpty)
-        .toSet()
-        .toList();
+  List<String> currentNotes = recentFrequencies
+      .map((freq) => findClosestNote(freq))
+      .where((note) => note.isNotEmpty)
+      .toSet()
+      .toList();
 
-    if (currentNotes.length >= 3) {
-      recognizedChord.value = identifyChord(currentNotes);
+  if (currentNotes.length >= 3) {
+    recognizedChord.value = identifyChord(currentNotes);
 
-      if (recognizedChord.value == expectedChord) {
-        output.value = "Correct! You played $expectedChord";
-        detectionComplete = true;
-        showDoneButton.value = true;
-      } else if (!detectionComplete) {
-        output.value = "Wrong Chord";
-      }
-    } else {
-      recognizedChord.value = 'Not enough notes for chord';
+    // Extract the base note (e.g., "A" from "A minor")
+    String baseChordName = chordNamee.split(' ')[0];
+
+    if (recognizedChord.value == baseChordName) {
+      output.value = "Correct! You played $chordNamee";  // Display full chordName for user feedback
+      detectionComplete = true;
+      showDoneButton.value = true;
+    } else if (!detectionComplete) {
+      output.value = "Incorrect. Try playing $chordNamee";  // Use full chordName in feedback
     }
+  } else {
+    recognizedChord.value = 'Not enough notes for chord';
   }
-
+}
   String identifyChord(List<String> notes) {
     Set<String> noteSet = notes.toSet();
 
-    if (noteSet.contains('A1') && noteSet.contains('A2')) {
+     if (noteSet.contains('A1') || noteSet.contains('A2')) {
       return 'A';
     } else if (noteSet.contains('B1')) {
       return 'B';
     } else if (noteSet.contains('C2') || noteSet.contains('C3')) {
       return 'C';
-    } else if (noteSet.contains('D3') || noteSet.contains('D1')) {
+    } else if (noteSet.contains('D3') || noteSet.contains('D1')|| noteSet.contains('D4')) {
       return 'D';
-    } else if (noteSet.contains('#G3') ||
-        noteSet.contains('E1') ||
-        noteSet.contains('E2')) {
+    } else if (noteSet.contains('G3') || noteSet.contains('E1') || noteSet.contains('E2')) {
       return 'E';
-    } else if (noteSet.contains('F1') || noteSet.contains('F2')) {
+    } else if (noteSet.contains('F2') || noteSet.contains('F1')) {
       return 'F';
-    } else if (noteSet.contains('G1') || noteSet.contains('G2')) {
+    } else if (noteSet.contains('G1')  || noteSet.contains('G2') || noteSet.contains('#A3')) {
       return 'G';
     } else {
       return 'Unknown chord';
@@ -1216,7 +1045,7 @@ class NoteChordControllerMajor extends GetxController {
   }
 
   void markChordAsCompleted() {
-    Get.find<PracticeScreenMajorController>().addCompletedChord(expectedChord);
+    Get.find<PracticeScreenMinorController>().addCompletedChord(chordNamee);
   }
 
   @override
@@ -1227,21 +1056,34 @@ class NoteChordControllerMajor extends GetxController {
   }
 }
 
-class AudioDetectionScreenMajor extends StatelessWidget {
+class AudioDetectionScreenMinor extends StatelessWidget {
+  final String chordNamee;
   final String expectedChord;
+  final CameraController controller;
+  final bool isCameraReady;
 
-  const AudioDetectionScreenMajor({Key? key, required this.expectedChord})
-      : super(key: key);
+  const AudioDetectionScreenMinor({
+    Key? key,
+    required this.chordNamee,
+    required this.expectedChord,
+    required this.controller,
+    required this.isCameraReady,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (Get.isRegistered<NoteChordControllerMajor>()) {
-      Get.delete<NoteChordControllerMajor>();
+    if (Get.isRegistered<NoteChordControllerMinor>()) {
+      Get.delete<NoteChordControllerMinor>();
     }
+
+    final controllerOutput = Get.put(NoteChordControllerMinor(
+      expectedChord: expectedChord,
+      chordNamee: chordNamee,
+    ));
     int wrongchordcount = 0;
-    final controller = Get.put(NoteChordControllerMajor(expectedChord));
-    ever(controller.output, (String output) {
-      if (output == "Correct! You played $expectedChord") {
+
+    ever(controllerOutput.output, (String output) {
+      if (output.contains("Correct! You played")) {
         AwesomeDialog(
           context: context,
           dialogType: DialogType.success,
@@ -1279,92 +1121,84 @@ class AudioDetectionScreenMajor extends StatelessWidget {
     });
 
     return Scaffold(
-      body: Stack(
+  body: Stack(
+    children: [
+      Column(
         children: [
-          SafeArea(
-            child: Center(
-              child: Obx(() {
-                if (!controller.hasAudioPermission.value) {
-                  return const Text("No audio permission provided");
-                }
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(40),
-                      child: Text(
-                        'Detecting ${expectedChord} Major',
-                        style: const TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 40),
-                      child: Image.asset(
-                        'assets/images/mike.png', // Placeholder for the microphone image
-                        height: 50,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      "Recognized Chord: ${controller.recognizedChord.value}",
-                      style: const TextStyle(fontSize: 15),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 20),
-                    Text(
-                      controller.output.value,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: controller.output.value == "Correct Chord"
-                            ? Colors.green
-                            : Colors.red,
-                      ),
-                    ),
-                  ],
-                );
-              }),
+          Padding(
+            padding: const EdgeInsets.all(40),
+            child: Text(
+              'Detecting $chordNamee',
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-          Positioned(
-            bottom: 20,
-            left: 20,
-            child: FloatingActionButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const PracticeScreenMajor(
-                            title: 'Major Chords',
-                          )),
-                );
-              },
-              backgroundColor: const Color.fromARGB(245, 245, 110, 15),
-              child: const Icon(Icons.cancel),
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.6,
+              width: MediaQuery.of(context).size.width,
+              child: isCameraReady
+                  ? AspectRatio(
+                      aspectRatio: controller.value.aspectRatio,
+                      child: CameraPreview(controller),
+                    )
+                  : const Center(child: CircularProgressIndicator()),
             ),
           ),
+          Obx(() => Text(
+                controllerOutput.output.value,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: controllerOutput.output.value.contains("Correct")
+                      ? Colors.green
+                      : Colors.red,
+                ),
+              )),
+          const SizedBox(height: 20),
         ],
       ),
-      floatingActionButton: Obx(() {
-        return controller.showDoneButton.value
-            ? FloatingActionButton(
-                onPressed: () {
-                  controller.markChordAsCompleted();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const MyProgress()),
-                  );
-                },
-                backgroundColor: const Color.fromARGB(245, 245, 110, 15),
-                child: const Text(
-                  'Done',
-                  style: TextStyle(color: Colors.white),
-                ),
-              )
-            : const SizedBox.shrink();
-      }),
-    );
+      Positioned(
+        bottom: 20,
+        left: 20,
+        child: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    const PracticeScreenMinor(title: 'Minor Chords'),
+              ),
+            );
+          },
+          backgroundColor: const Color.fromARGB(245, 245, 110, 15),
+          child: const Icon(Icons.cancel),
+        ),
+      ),
+    ],
+  ),
+  floatingActionButton: Obx(() {
+    return controllerOutput.showDoneButton.value
+        ? FloatingActionButton(
+            onPressed: () {
+              controllerOutput.markChordAsCompleted();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MyProgress()),
+              );
+            },
+            backgroundColor: const Color.fromARGB(245, 245, 110, 15),
+            child: const Text(
+              'Done',
+              style: TextStyle(color: Colors.white),
+            ),
+          )
+        : const SizedBox.shrink();
+  }),
+);
   }
 }
 
