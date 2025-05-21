@@ -70,10 +70,10 @@ To get the best experience with ChorDefine, please follow these guidelines:
 ## 🖼️ Screenshots
 
 ![Application Onboarding](assets/images/screenshots/Onboarding.jpg)
-![Main App Interface](assets/images/screenshots/Maininterface.png)
-![Chord Detection Example](assets/images/screenshots/ChordDetectionPage.png)
-![Tips](assets/images/ChordDetectionOnboarding.jpg)
-![Tuner](assets/images/TunerPage.png)
+![Main App Interface](assets/images/screenshots/MainInterface.png)
+![Chord Detection Example](assets/images/screenshots/ChordDetectingPage.jpg)
+![Tips](assets/images/screenshots/ChordDetectionOnboarding.jpg)
+![Tuner](assets/images/screenshots/TunerPage.png)
 
 
 ---
