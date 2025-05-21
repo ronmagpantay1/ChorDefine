@@ -14,11 +14,13 @@ List<chor> chords = [
   chor(
     name: "Major Chords",
     thumbnail: "assets/pics/Majorr.png",
-    description: "Bright and uplifting, major chords are built with a root, major third, and perfect fifth, creating a joyful sound.",
+    description:
+        "Bright and uplifting, major chords are built with a root, major third, and perfect fifth, creating a joyful sound.",
   ),
   chor(
     name: "Minor Chords",
     thumbnail: "assets/pics/Minorr.png",
-    description: "Minor chords use a root, minor third, and perfect fifth for a darker, more emotional tone, often evoking sadness or mystery",
+    description:
+        "Minor chords use a root, minor third, and perfect fifth for a darker, more emotional tone, often evoking sadness or mystery",
   ),
 ];

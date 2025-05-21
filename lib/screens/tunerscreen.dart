@@ -7,21 +7,20 @@ import 'package:pitch_detector_dart/pitch_detector.dart';
 import 'package:wakelock/wakelock.dart';
 import 'package:flutter/services.dart';
 
-
 const midGreyColor = Color.fromARGB(247, 255, 255, 255);
-
 const blackGreyColor = Color.fromARGB(247, 255, 255, 255);
-
-// Text Styles
 const styleGreenSmall = TextStyle(color: Colors.green, fontSize: 13);
 const styleBlackSmall = TextStyle(color: Colors.white, fontSize: 13);
 const styleBlackMedium = TextStyle(color: Colors.white, fontSize: 16);
-const styleWhiteSmall = TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 13);
-const styleWhiteMedium = TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 16);
-const styleWhiteBig =
-    TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 32, fontWeight: FontWeight.bold);
+const styleWhiteSmall =
+    TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 13);
+const styleWhiteMedium =
+    TextStyle(color: Color.fromARGB(255, 0, 0, 0), fontSize: 16);
+const styleWhiteBig = TextStyle(
+    color: Color.fromARGB(255, 0, 0, 0),
+    fontSize: 32,
+    fontWeight: FontWeight.bold);
 
-// Tuner Controller
 class TunerController extends GetxController {
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
@@ -44,7 +43,7 @@ class TunerController extends GetxController {
     196.00, // G3
     146.83, // D3
     110.00, // A2
-    82.41,  // E2
+    82.41, // E2
   ];
 
   @override
@@ -67,13 +66,14 @@ class TunerController extends GetxController {
           (((currentPitch.value - pitchToCompare.value) * 3) + 100).toDouble();
     } else {
       isInRange.value = false;
-      markerPositionX.value = currentPitch.value > (pitchToCompare.value + maxRange)
-          ? 180.0 - 24
-          : 24;
+      markerPositionX.value =
+          currentPitch.value > (pitchToCompare.value + maxRange)
+              ? 180.0 - 24
+              : 24;
     }
 
     isTuned.value = currentPitch.value > (pitchToCompare.value - maxToTune) &&
-                    currentPitch.value < (pitchToCompare.value + maxToTune);
+        currentPitch.value < (pitchToCompare.value + maxToTune);
   }
 
   recordPerm() async {
@@ -99,12 +99,9 @@ class TunerController extends GetxController {
     }
   }
 
-  void error(Object e) {
-    // Handle error
-  }
+  void error(Object e) {}
 }
 
-// Vertical Line Painter
 class VerticalLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
@@ -129,7 +126,6 @@ class VerticalLinePainter extends CustomPainter {
   }
 }
 
-// Tuner Marker
 class TunerMarker extends StatelessWidget {
   const TunerMarker({super.key});
 
@@ -172,7 +168,6 @@ class TunerMarker extends StatelessWidget {
   }
 }
 
-// Guitar Button
 class GuitarButton extends StatelessWidget {
   final Color chordColor;
   final int chordIndex;
@@ -196,8 +191,10 @@ class GuitarButton extends StatelessWidget {
               BorderSide(color: chordColor, width: 2),
             ),
             backgroundColor: tunerController.selectedTune.value == chordText
-                ? MaterialStateProperty.all<Color>(const Color.fromARGB(255, 0, 0, 0))
-                : MaterialStateProperty.all<Color>(const Color.fromARGB(245, 245, 110, 15)),
+                ? MaterialStateProperty.all<Color>(
+                    const Color.fromARGB(255, 0, 0, 0))
+                : MaterialStateProperty.all<Color>(
+                    const Color.fromARGB(245, 245, 110, 15)),
           ),
           onPressed: () => tunerController.selectChord(chordIndex, chordText),
           child: Text(
@@ -210,8 +207,6 @@ class GuitarButton extends StatelessWidget {
   }
 }
 
-// Tuner Screen
-// Tuner Screen
 class TunerScreen extends StatelessWidget {
   const TunerScreen({super.key});
 
@@ -229,8 +224,6 @@ class TunerScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Back Button
-                
                 const SizedBox(height: 15),
                 Expanded(
                   child: Center(
@@ -252,16 +245,21 @@ class TunerScreen extends StatelessWidget {
                                     child: Column(
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(top: 10),
+                                          padding:
+                                              const EdgeInsets.only(top: 10),
                                           child: Text(
-                                            tunerController.selectedTune.value == ""
+                                            tunerController
+                                                        .selectedTune.value ==
+                                                    ""
                                                 ? "Select string..."
-                                                : tunerController.selectedTune.value,
+                                                : tunerController
+                                                    .selectedTune.value,
                                             style: styleWhiteBig,
                                           ),
                                         ),
                                         Text(
-                                          tunerController.pitchToCompare.value.toString(),
+                                          tunerController.pitchToCompare.value
+                                              .toString(),
                                           style: styleWhiteSmall,
                                         ),
                                         tunerController.selectedTune.value == ""

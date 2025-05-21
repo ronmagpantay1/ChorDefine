@@ -23,60 +23,66 @@ class _OnboardingViewState extends State<OnboardingView> {
     return Scaffold(
       bottomSheet: Container(
         color: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
-        child: isLastPage? getStarted() : Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        child: isLastPage
+            ? getStarted()
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  //Skip Button
+                  TextButton(
+                      onPressed: () => pageController
+                          .jumpToPage(controller.items.length - 1),
+                      child: const Text("Skip")),
 
-            //Skip Button
-            TextButton(
-                onPressed: ()=>pageController.jumpToPage(controller.items.length-1),
-                child: const Text("Skip")),
+                  //Indicator
+                  SmoothPageIndicator(
+                    controller: pageController,
+                    count: controller.items.length,
+                    onDotClicked: (index) => pageController.animateToPage(index,
+                        duration: const Duration(milliseconds: 600),
+                        curve: Curves.easeIn),
+                    effect: const WormEffect(
+                      dotHeight: 12,
+                      dotWidth: 12,
+                      activeDotColor: primaryColor,
+                    ),
+                  ),
 
-            //Indicator
-            SmoothPageIndicator(
-                controller: pageController,
-                count: controller.items.length,
-                onDotClicked: (index)=> pageController.animateToPage(index,
-                    duration: const Duration(milliseconds: 600), curve: Curves.easeIn),
-                effect: const WormEffect(
-                  dotHeight: 12,
-                  dotWidth: 12,
-                  activeDotColor: primaryColor,
-                ),
-            ),
-
-            //Next Button
-            TextButton(
-                onPressed: ()=>pageController.nextPage(
-                    duration: const Duration(milliseconds: 600), curve: Curves.easeIn),
-                child: const Text("Next")),
-
-
-          ],
-        ),
+                  //Next Button
+                  TextButton(
+                      onPressed: () => pageController.nextPage(
+                          duration: const Duration(milliseconds: 600),
+                          curve: Curves.easeIn),
+                      child: const Text("Next")),
+                ],
+              ),
       ),
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 15),
         child: PageView.builder(
-            onPageChanged: (index)=> setState(()=> isLastPage = controller.items.length-1 == index),
+            onPageChanged: (index) => setState(
+                () => isLastPage = controller.items.length - 1 == index),
             itemCount: controller.items.length,
             controller: pageController,
-            itemBuilder: (context,index){
+            itemBuilder: (context, index) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(controller.items[index].image),
                   const SizedBox(height: 15),
-                  Text(controller.items[index].title,
-                    style: const TextStyle(fontSize: 25,fontWeight: FontWeight.bold),),
+                  Text(
+                    controller.items[index].title,
+                    style: const TextStyle(
+                        fontSize: 25, fontWeight: FontWeight.bold),
+                  ),
                   const SizedBox(height: 15),
                   Text(controller.items[index].descriptions,
-                      style: const TextStyle(color: Colors.grey,fontSize: 17), textAlign: TextAlign.center),
+                      style: const TextStyle(color: Colors.grey, fontSize: 17),
+                      textAlign: TextAlign.center),
                 ],
               );
-
-        }),
+            }),
       ),
     );
   }
@@ -87,25 +93,27 @@ class _OnboardingViewState extends State<OnboardingView> {
 
   //Get started button
 
- Widget getStarted(){
+  Widget getStarted() {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        color: primaryColor
-      ),
+          borderRadius: BorderRadius.circular(8), color: primaryColor),
       width: MediaQuery.of(context).size.width * .9,
       height: 55,
       child: TextButton(
-          onPressed: ()async{
+          onPressed: () async {
             final pres = await SharedPreferences.getInstance();
             pres.setBool("onboarding", true);
 
             //After we press get started button this onboarding value become true
             // same key
-            if(!mounted)return;
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const BaseScreen()));
+            if (!mounted) return;
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const BaseScreen()));
           },
-          child: const Text("Get started",style: TextStyle(color: Colors.white),)),
+          child: const Text(
+            "Get started",
+            style: TextStyle(color: Colors.white),
+          )),
     );
- }
+  }
 }

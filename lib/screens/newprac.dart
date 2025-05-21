@@ -35,11 +35,9 @@ class _pracnewState extends State<pracnew> {
                               .textTheme
                               .displayMedium
                               ?.copyWith(
-                                fontWeight:
-                                    FontWeight.bold, // Set the font weight
-                                color: Colors.white, // Set the desired color
-                                fontSize: 35, // Adjust font size if needed
-                                // Set a custom font family if desired
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 35,
                               ),
                         ),
                       ),

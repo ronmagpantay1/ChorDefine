@@ -19,7 +19,7 @@ class _CourseScreenState extends State<CourseScreen> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark,
       child: Scaffold(
-        backgroundColor:const Color.fromARGB(245, 245, 110, 15),
+        backgroundColor: const Color.fromARGB(245, 245, 110, 15),
         body: SafeArea(
           bottom: false,
           child: Padding(
@@ -81,7 +81,6 @@ class CourseContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Navigate based on the course name
         if (course.name == 'Learn Basic Chords') {
           Navigator.push(
             context,
@@ -147,8 +146,7 @@ class CourseContainer extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    course
-                        .description, // Assuming each course has a description
+                    course.description,
                     style: TextStyle(
                       fontSize: 15,
                       color: Colors.grey[700],

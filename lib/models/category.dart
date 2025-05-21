@@ -27,7 +27,8 @@ List<Category> categoryList = [
   ),
   Category(
     name: 'Practice',
-    definition: ' Practice the chords through computer vision and sound detection.',
+    definition:
+        ' Practice the chords through computer vision and sound detection.',
     thumbnail: 'assets/pics/practicelogo.png',
     destinationScreen: const pracnew(),
   ),

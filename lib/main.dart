@@ -13,7 +13,7 @@ void main() async {
   Get.lazyPut(() => PracticeScreenMinorController());
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  final onboarding = prefs.getBool("onboarding")??false;
+  final onboarding = prefs.getBool("onboarding") ?? false;
   cameras = await availableCameras();
 
   if (!onboarding) {
@@ -22,7 +22,7 @@ void main() async {
   runApp(MyApp(onboarding: onboarding));
 }
 
-late List<CameraDescription> cameras; 
+late List<CameraDescription> cameras;
 
 Future<void> requestPermissions() async {
   await [
@@ -30,10 +30,10 @@ Future<void> requestPermissions() async {
     Permission.microphone,
   ].request();
 }
+
 class MyApp extends StatelessWidget {
   final bool onboarding;
   const MyApp({super.key, this.onboarding = false});
-
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +64,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      //home: NoteChordScreen(),
-       home: onboarding? const BaseScreen() : const OnboardingView(),
-      // BaseScreen   NoteChordScreen   Home SingAlongScreen NoteChordScreen
+      home: onboarding ? const BaseScreen() : const OnboardingView(),
     );
   }
 }

@@ -122,7 +122,6 @@ class GuitarChordsScreen extends StatelessWidget {
   }
 }
 
-// Define ChordBox widget to display each chord info in a box with rounded border
 class ChordBox extends StatelessWidget {
   final String chordName;
   final String description;
@@ -138,7 +137,7 @@ class ChordBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0), // Add consistent spacing
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: const Color.fromARGB(150, 245, 110, 15),
@@ -191,4 +190,3 @@ class ChordBox extends StatelessWidget {
     );
   }
 }
-

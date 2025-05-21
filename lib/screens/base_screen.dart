@@ -42,10 +42,10 @@ class _BaseScreenState extends State<BaseScreen> {
     return MaterialApp(
       theme: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
       home: Scaffold(
-        extendBody: true, // Extends the body behind the bottom navigation bar for transparency
+        extendBody: true,
         body: Stack(
           children: [
-            _buildGlassMorphicBackground(), // Adds glassmorphic effect to background
+            _buildGlassMorphicBackground(),
             _getSelectedPage(),
           ],
         ),
@@ -57,10 +57,10 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget _buildGlassMorphicBackground() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2), // Set color with opacity
+        color: const Color.fromARGB(247, 194, 89, 4).withOpacity(0.2),
       ),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15), // Blur for glass effect
+        filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
         child: Container(
           color: Colors.transparent,
         ),
@@ -71,7 +71,7 @@ class _BaseScreenState extends State<BaseScreen> {
   Widget _buildGlassMorphicBottomNavigationBar() {
     return Container(
       decoration: BoxDecoration(
-        color: Color.fromARGB(245, 245, 110, 15).withOpacity(1), // Glassmorphic color with opacity
+        color: Color.fromARGB(245, 245, 110, 15).withOpacity(1),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),

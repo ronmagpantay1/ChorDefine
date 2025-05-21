@@ -1,9 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 
-// Main function to run the app
-
-// SettingsPage with styled buttons for navigation
 class SettingsPage extends StatelessWidget {
   final bool isDarkMode;
   final ValueChanged<bool> onDarkModeChanged;
@@ -22,12 +19,13 @@ class SettingsPage extends StatelessWidget {
         children: [
           _buildGlassMorphicContainer(),
           Padding(
-            padding: EdgeInsets.only(top: appBarHeight + statusBarHeight), // Add padding to account for AppBar height
+            padding: EdgeInsets.only(top: appBarHeight + statusBarHeight),
             child: Center(
               child: ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 350),
                 child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0), // Reduced vertical padding
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 20.0),
                   children: [
                     _buildButton(
                       context: context,
@@ -36,7 +34,8 @@ class SettingsPage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const AboutUsPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const AboutUsPage()),
                         );
                       },
                     ),
@@ -48,7 +47,8 @@ class SettingsPage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const AboutAppPage()),
+                          MaterialPageRoute(
+                              builder: (context) => const AboutAppPage()),
                         );
                       },
                     ),
@@ -102,13 +102,10 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
-
-// Custom GlassMorphicAppBar for a frosted glass effect
-class GlassMorphicAppBar extends StatelessWidget implements PreferredSizeWidget {
+class GlassMorphicAppBar extends StatelessWidget
+    implements PreferredSizeWidget {
   final String title;
-
   const GlassMorphicAppBar({Key? key, required this.title}) : super(key: key);
-
   @override
   Size get preferredSize => const Size.fromHeight(70);
 
@@ -124,7 +121,8 @@ class GlassMorphicAppBar extends StatelessWidget implements PreferredSizeWidget 
         child: AppBar(
           title: Text(
             title,
-            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
+            style: const TextStyle(
+                fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           centerTitle: true,
           backgroundColor: const Color.fromARGB(245, 245, 110, 15),
@@ -135,19 +133,42 @@ class GlassMorphicAppBar extends StatelessWidget implements PreferredSizeWidget 
   }
 }
 
-// AboutUsPage with sample developer info
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final List<Map<String, String>> developers = [
-      {"name": "Richie Paul Aquiño", "image": "assets/images/richie.jpeg", "description": "Developer 1"},
-      {"name": "Willie Deadio Jr.", "image": "assets/images/willie.jpg", "description": "Developer 2"},
-      {"name": "Job Russel Destor", "image": "assets/images/job.jpg", "description": "Developer 3"},
-      {"name": "Ron Philip Magpantay", "image": "assets/images/ron.jpg", "description": "Developer 4"},
-      {"name": "Jose Miguell Monsale", "image": "assets/images/miggy.jpg", "description": "Developer 5"},
-      {"name": "Ralph Voltaire Dayot", "image": "assets/images/dayot.jpg", "description": "Thesis Adviser"},
+      {
+        "name": "Richie Paul Aquiño",
+        "image": "assets/images/richie.jpeg",
+        "description": "Developer 1"
+      },
+      {
+        "name": "Willie Deadio Jr.",
+        "image": "assets/images/willie.jpg",
+        "description": "Developer 2"
+      },
+      {
+        "name": "Job Russel Destor",
+        "image": "assets/images/job.jpg",
+        "description": "Developer 3"
+      },
+      {
+        "name": "Ron Philip Magpantay",
+        "image": "assets/images/ron.jpg",
+        "description": "Developer 4"
+      },
+      {
+        "name": "Jose Miguell Monsale",
+        "image": "assets/images/miggy.jpg",
+        "description": "Developer 5"
+      },
+      {
+        "name": "Ralph Voltaire Dayot",
+        "image": "assets/images/dayot.jpg",
+        "description": "Thesis Adviser"
+      },
     ];
 
     return Scaffold(
@@ -163,7 +184,8 @@ class AboutUsPage extends StatelessWidget {
                 const SizedBox(height: 5),
                 Expanded(
                   child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: 12,
                       crossAxisSpacing: 12,
@@ -217,7 +239,6 @@ class AboutUsPage extends StatelessWidget {
   }
 }
 
-// DeveloperCard widget for displaying developer information
 class DeveloperCard extends StatelessWidget {
   final String name;
   final String imagePath;
@@ -281,7 +302,6 @@ class DeveloperCard extends StatelessWidget {
   }
 }
 
-// AboutAppPage with placeholder content
 class AboutAppPage extends StatelessWidget {
   const AboutAppPage({Key? key}) : super(key: key);
 
@@ -341,8 +361,6 @@ class AboutAppPage extends StatelessWidget {
   }
 }
 
-
-// Helper function for the glass-morphic effect background
 Widget _buildGlassMorphicContainer() {
   return Container(
     decoration: BoxDecoration(

@@ -22,7 +22,7 @@ class _FeaturedScreenState extends State<FeaturedScreen> {
         body: Column(
           children: [
             GlassmorphicAppBar(),
-            SizedBox(height: 16), // Spacing below the AppBar
+            SizedBox(height: 16),
             Expanded(child: Body()),
           ],
         ),
@@ -42,7 +42,6 @@ class GlassmorphicAppBar extends StatelessWidget {
       width: double.infinity,
       child: Stack(
         children: [
-          // Blurred background
           ClipRRect(
             borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(20),
@@ -129,20 +128,6 @@ class Body extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Text(
-              //   "Explore Categories",
-              //   style: Theme.of(context).textTheme.bodyLarge,
-              // ),
-              // TextButton(
-              //   onPressed: () {},
-              //   child: Text(
-              //     "See All",
-              //     style: Theme.of(context)
-              //         .textTheme
-              //         .bodyMedium
-              //         ?.copyWith(color: kPrimaryColor),
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -181,7 +166,7 @@ class GlassmorphicCategoryCard extends StatelessWidget {
   const GlassmorphicCategoryCard({
     Key? key,
     required this.category,
-     this.backgroundColor = const Color.fromARGB(245, 245, 110, 15), // Default color if none provided
+     this.backgroundColor = const Color.fromARGB(245, 245, 110, 15),
   }) : super(key: key);
 
   @override
@@ -205,7 +190,6 @@ class GlassmorphicCategoryCard extends StatelessWidget {
               border: Border.all(
                 color: Colors.white.withOpacity(0.2),
               ),
-             
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -233,10 +217,6 @@ class GlassmorphicCategoryCard extends StatelessWidget {
                     fontSize: 10,
                   ), textAlign: TextAlign.center,
                 ),
-                // Text(
-                //   "${category.noOfCourses.toString()} courses",
-                //   style: Theme.of(context).textTheme.bodySmall,
-                // ),
               ],
             ),
           ),

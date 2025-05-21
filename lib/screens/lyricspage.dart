@@ -7,7 +7,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:pitch_detector_dart/pitch_detector.dart';
 import 'dart:typed_data';
 
-// Main screen displaying a list of songs
 class CourseScreen3 extends StatefulWidget {
   const CourseScreen3({Key? key}) : super(key: key);
 
@@ -32,7 +31,6 @@ class _CourseScreen3State extends State<CourseScreen3> {
     'The Beatles',
   ];
 
-  // Map each song title to its list of SongLines (lyrics and notes)
   final Map<String, List<SongLine>> songData = {
     'Happy Birthday': [
       SongLine(lyrics: "Happy birthday to you", note: "G1", chord: "G"),
@@ -41,22 +39,18 @@ class _CourseScreen3State extends State<CourseScreen3> {
       SongLine(lyrics: "Happy birthday to you!", note: "G1", chord: "G"),
     ],
     'Perfect': [
-      SongLine(lyrics: "Baby, I'm", note: "E1", chord: "E"), // Em is correct
-      SongLine(lyrics: "dancing in", note: "C2", chord: "C"), // C major
-      SongLine(lyrics: "the dark,", note: "G1", chord: "G"), // G major
-      SongLine(lyrics: "with you", note: "D1", chord: "D"), // D major
-      SongLine(
-          lyrics: "between my arms", note: "E1", chord: "E"), // Em is correct
+      SongLine(lyrics: "Baby, I'm", note: "E1", chord: "E"),
+      SongLine(lyrics: "dancing in", note: "C2", chord: "C"),
+      SongLine(lyrics: "the dark,", note: "G1", chord: "G"),
+      SongLine(lyrics: "with you", note: "D1", chord: "D"),
+      SongLine(lyrics: "between my arms", note: "E1", chord: "E"),
       SongLine(lyrics: "barefoot on the grass,", note: "C2", chord: "C"),
       SongLine(lyrics: "listening", note: "G1", chord: "G"),
       SongLine(lyrics: "to our favorite song", note: "D1", chord: "D"),
       SongLine(lyrics: "when you said you looked", note: "C2", chord: "C"),
       SongLine(lyrics: "a mess,", note: "G1", chord: "G"),
       SongLine(lyrics: "I whispered", note: "D1", chord: "D"),
-      SongLine(
-          lyrics: "underneath my breath",
-          note: "E1",
-          chord: "E"), // Em is correct
+      SongLine(lyrics: "underneath my breath", note: "E1", chord: "E"),
       SongLine(lyrics: "But you heard it,", note: "C2", chord: "C"),
       SongLine(lyrics: "darling you", note: "G1", chord: "G"),
       SongLine(lyrics: "look perfect", note: "D1", chord: "D"),
@@ -118,10 +112,8 @@ class _CourseScreen3State extends State<CourseScreen3> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center, 
-
-            children: 
- [
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
               const Text(
                 'Basic Guitar Songs',
                 style: TextStyle(
@@ -133,19 +125,17 @@ class _CourseScreen3State extends State<CourseScreen3> {
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.symmetric(vertical: 20),
-                  separatorBuilder: 
- (_, __) => const SizedBox(height: 10),
+                  separatorBuilder: (_, __) => const SizedBox(height: 10),
                   itemCount: exploreItems.length,
                   itemBuilder: (context, index) {
                     final songTitle = exploreItems[index];
                     final artist = songArtist[index];
-                    // Check if all chords are completed
-                    bool areAllChordsCompleted = majorController
-                            .areAllChordsCompleted() &&
-                        minorController.areAllChordsCompleted();
+                    bool areAllChordsCompleted =
+                        majorController.areAllChordsCompleted() &&
+                            minorController.areAllChordsCompleted();
 
                     return GestureDetector(
-                      onTap: areAllChordsCompleted // Check if unlocked
+                      onTap: areAllChordsCompleted
                           ? () {
                               final songLines = songData[songTitle] ?? [];
                               Navigator.push(
@@ -159,22 +149,20 @@ class _CourseScreen3State extends State<CourseScreen3> {
                                 ),
                               );
                             }
-                          : null, // Disable tapping if not unlocked
+                          : null,
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.white,
                           boxShadow: const [
                             BoxShadow(
-                              color: Colors.black12, 
-
+                              color: Colors.black12,
                               blurRadius: 10,
                               offset: Offset(0, 5),
                             ),
                           ],
                         ),
-                        padding: const EdgeInsets.all(10), 
-
+                        padding: const EdgeInsets.all(10),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -200,8 +188,7 @@ class _CourseScreen3State extends State<CourseScreen3> {
                                     artist,
                                     style: const TextStyle(
                                       fontSize: 16,
-                                      color: Color.fromARGB(
-                                          255, 153, 153, 153),
+                                      color: Color.fromARGB(255, 153, 153, 153),
                                       fontStyle: FontStyle.normal,
                                     ),
                                   ),
@@ -227,12 +214,10 @@ class _CourseScreen3State extends State<CourseScreen3> {
           ),
         ),
       ),
-      ////////////////
     );
   }
 }
 
-// Lyrics screen with sing-along functionality
 class LyricsScreen extends StatelessWidget {
   final String title;
   final String artist;
@@ -247,7 +232,6 @@ class LyricsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Delete any existing NoteChordController instance before putting a new one
     if (Get.isRegistered<NoteChordController>()) {
       Get.delete<NoteChordController>();
     }
@@ -274,11 +258,10 @@ class LyricsScreen extends StatelessWidget {
         ),
       ),
       body: Center(
-        // Wrap main content in Center widget to center it vertically and horizontally
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min, // Center content vertically
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
@@ -335,11 +318,6 @@ class LyricsScreen extends StatelessWidget {
                         style: const TextStyle(fontSize: 24),
                       ),
                       const SizedBox(height: 20),
-                     // Text(
-                       // "Detected Chord: ${controller.detectedChord.value}",
-                        //style:
-                           // const TextStyle(fontSize: 24, color: Colors.green),
-                     // ),
                     ],
                   ),
                 );
@@ -352,14 +330,13 @@ class LyricsScreen extends StatelessWidget {
   }
 }
 
-// Sing-Along controller with dynamic song data
 class NoteChordController extends GetxController {
   final List<SongLine> currentSong;
   final _audioRecorder = FlutterAudioCapture();
   final pitchDetectorDart = PitchDetector(44100, 2000);
   var hasAudioPermission = false.obs;
   var currentPitch = 0.0.obs;
-  var detectedChord = ''.obs; // Change from recognizedNote to detectedChord
+  var detectedChord = ''.obs;
   var currentIndex = 0.obs;
 
   NoteChordController({required this.currentSong});
@@ -390,13 +367,11 @@ class NoteChordController extends GetxController {
     if (result.pitched) {
       currentPitch.value = result.pitch;
       detectedChord.value = findChord(result.pitch);
-
-      // Check if detected chord matches the expected chord
       if (detectedChord.value == currentSong[currentIndex.value].chord) {
         if (currentIndex.value < currentSong.length - 1) {
           currentIndex.value++;
         } else {
-          currentIndex.value = 0; // Reset for replay
+          currentIndex.value = 0;
         }
       }
     }
@@ -413,8 +388,6 @@ class NoteChordController extends GetxController {
         closestNote = note;
       }
     });
-
-    // Convert single note to a List before passing to identifyChord
     return identifyChord([closestNote]);
   }
 
@@ -432,7 +405,7 @@ class NoteChordController extends GetxController {
 class SongLine {
   final String lyrics;
   final String note;
-  final String chord; // Add chord property
+  final String chord;
 
   SongLine({
     required this.lyrics,
@@ -443,47 +416,32 @@ class SongLine {
 
 String identifyChord(List<String> notes) {
   Set<String> noteSet = notes.toSet();
-
-  // Improved chord detection by adding more specific minor chord checks
-  // Check for A major and A minor
   if (noteSet.contains('A1') || noteSet.contains('A2')) {
-    return 'A'; // A minor
+    return 'A';
   } else if (noteSet.contains('A1') || noteSet.contains('A2')) {
     return 'Am';
-
-    // Check for B major and B minor
   } else if (noteSet.contains('B1') || noteSet.contains('B2')) {
-    return 'B'; // B minor
+    return 'B';
   } else if (noteSet.contains('B1') || noteSet.contains('B2')) {
     return 'Bm';
-
-    // Check for C major and C minor
   } else if (noteSet.contains('C2') || noteSet.contains('C3')) {
-    return 'C'; // C minor
+    return 'C';
   } else if (noteSet.contains('C2') || noteSet.contains('C3')) {
     return 'Cm';
-
-    // Check for D major and D minor
   } else if (noteSet.contains('D1') || noteSet.contains('D3')) {
-    return 'D'; // D minor
+    return 'D';
   } else if (noteSet.contains('D1') || noteSet.contains('D3')) {
     return 'Dm';
-
-    // Check for E major and E minor
   } else if (noteSet.contains('E1') || noteSet.contains('E2')) {
-    return 'E'; // E minor
+    return 'E';
   } else if (noteSet.contains('E1') || noteSet.contains('E2')) {
     return 'Em';
-
-    // Check for F major and F minor
   } else if (noteSet.contains('F1') || noteSet.contains('F2')) {
-    return 'F'; // F minor
+    return 'F';
   } else if (noteSet.contains('F1') || noteSet.contains('F2')) {
     return 'Fm';
-
-    // Check for G major and G minor
   } else if (noteSet.contains('G1') || noteSet.contains('G2')) {
-    return 'G'; // G minor
+    return 'G';
   } else if (noteSet.contains('G1') || noteSet.contains('G2')) {
     return 'Gm';
   } else {

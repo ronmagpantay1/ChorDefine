@@ -10,7 +10,6 @@ class MyProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize both Major and Minor controllers
     Get.lazyPut(() => PracticeScreenMajorController());
     Get.lazyPut(() => PracticeScreenMinorController());
     final PracticeScreenMajorController majorController = Get.find();
@@ -58,7 +57,6 @@ class MyProgress extends StatelessWidget {
           _buildGlassMorphicBackground(),
           Column(
             children: [
-              // Progress Bar
               SizedBox(height: 70),
               Obx(() {
                 final majorChords = majorController.completedChords.toList();
@@ -71,12 +69,11 @@ class MyProgress extends StatelessWidget {
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
                     children: [
-                      // Icon based on completion status
                       Icon(
                         isCompleted ? Icons.check_circle : Icons.cancel,
                         color: isCompleted ? Colors.green : Colors.red,
                       ),
-                      const SizedBox(width: 10), // Spacing between icon and bar
+                      const SizedBox(width: 10),
                       Expanded(
                         child: LinearProgressIndicator(
                           value: progress / 100,
@@ -90,7 +87,6 @@ class MyProgress extends StatelessWidget {
                   ),
                 );
               }),
-              // Progress text
               Obx(() {
                 final majorChords = majorController.completedChords.toList();
                 final minorChords = minorController.completedChords.toList();
@@ -108,18 +104,14 @@ class MyProgress extends StatelessWidget {
                   ),
                 );
               }),
-
               Expanded(
                 child: Obx(() {
-                  // Get completed chords from both controllers
                   final majorChords = majorController.completedChords.toList();
                   final minorChords = minorController.completedChords.toList();
-
                   if (majorChords.isEmpty && minorChords.isEmpty) {
                     return const Center(
                         child: Text("No completed chords yet."));
                   }
-
                   return ListView(
                     children: [
                       if (majorChords.isNotEmpty) ...[
@@ -175,8 +167,8 @@ class MyProgress extends StatelessWidget {
             ],
           ),
           Positioned(
-            bottom: 80, // Adjust to control vertical position
-            right: 10, // Adjust to control horizontal position
+            bottom: 80,
+            right: 10,
             child: ElevatedButton(
               onPressed: () {
                 Navigator.push(

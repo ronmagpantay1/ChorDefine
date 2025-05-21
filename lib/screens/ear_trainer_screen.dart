@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart'; // Import audioplayers package
+import 'package:audioplayers/audioplayers.dart';
 
 class EarTrainerScreen extends StatefulWidget {
   const EarTrainerScreen({Key? key}) : super(key: key);
@@ -10,13 +10,10 @@ class EarTrainerScreen extends StatefulWidget {
 
 class _EarTrainerScreenState extends State<EarTrainerScreen> {
   final AudioPlayer _audioPlayer = AudioPlayer();
-
-  // Function to play audio from assets
   void _playAudio(String fileName) async {
     await _audioPlayer.play(AssetSource('audio/$fileName'));
   }
 
-  // List of wav files corresponding to the boxes
   final List<String> wavFiles = [
     'a.wav',
     'am.wav',
@@ -34,7 +31,6 @@ class _EarTrainerScreenState extends State<EarTrainerScreen> {
     'gm.wav',
   ];
 
-  // List of labels for each box
   final List<String> labels = [
     'A Major',
     'A Minor',
@@ -65,15 +61,14 @@ class _EarTrainerScreenState extends State<EarTrainerScreen> {
       body: GridView.builder(
         padding: const EdgeInsets.all(16.0),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // 3 boxes per row
+          crossAxisCount: 2,
           crossAxisSpacing: 16.0,
           mainAxisSpacing: 16.0,
         ),
-        itemCount: 14, // 7 clickable boxes
+        itemCount: 14,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              // Play specific audio based on index
               _playAudio(wavFiles[index]);
             },
             child: Container(
@@ -84,7 +79,7 @@ class _EarTrainerScreenState extends State<EarTrainerScreen> {
                   const BoxShadow(
                     color: Colors.black12,
                     blurRadius: 10,
-                    offset: Offset(0, 5), // Shadow position
+                    offset: Offset(0, 5),
                   ),
                 ],
               ),
@@ -118,7 +113,7 @@ class _EarTrainerScreenState extends State<EarTrainerScreen> {
 
   @override
   void dispose() {
-    _audioPlayer.dispose(); // Dispose the player when done
+    _audioPlayer.dispose();
     super.dispose();
   }
 }
